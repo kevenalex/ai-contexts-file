@@ -1,0 +1,13 @@
+# Ambientes Virtuais
+.venv/
+venv/
+__pycache__/
+
+# Variáveis de Ambiente (Segredos)
+.env
+
+# Dados e Resultados (Opcional: se quiser subir apenas o código)
+output_rankings/
+output_detection/
+seart-data/*.json
+seart-data/*.gz
