@@ -68,4 +68,3 @@ Para evitar bloqueios por excesso de acessos na API do GitHub, você deve:
 2. Escrever dentro dele: GITHUB_TOKEN=seu_token_aqui
 
 ---
-=======
