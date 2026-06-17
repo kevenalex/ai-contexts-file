@@ -11,6 +11,9 @@ data/**/*.json
 data/**/*.gz
 data/**/*.csv
 
+# Exceção: amostra reduzida dos dados brutos, segura para o repo remoto
+!data/input_data/*-seart_data_sample.json
+
 # Script referência
 
 scripts-referencia/*
