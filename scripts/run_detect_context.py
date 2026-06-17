@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from dotenv import load_dotenv
 from detect_via_api import detect_context_api
 from detect_via_clone import detect_context_clone
@@ -13,9 +14,9 @@ load_dotenv()
 MODE = "API"
 
 # Parâmetros de entrada e amostragem
-INPUT_CSV = "output_rankings/ranked_24-08-2025.csv"
-OUTPUT_FOLDER = "output_detection"
-SAMPLE_SIZE = 100
+INPUT_CSV = "data/output_rankings/ranked_24-08-2025.csv"
+OUTPUT_FOLDER = "data/context_detection"
+SAMPLE_SIZE = 10000
 
 # Paralelismo: Apenas para o modo "CLONE"
 WORKERS = 5
@@ -59,8 +60,9 @@ def main():
         print(f"Erro: Modo de análise '{MODE}' desconhecido. Escolha 'API' ou 'CLONE'.")
         return
 
-    base_name = os.path.basename(INPUT_CSV).replace("ranked_", f"context_{MODE.lower()}_top{SAMPLE_SIZE}_")
-    output_path = os.path.join(OUTPUT_FOLDER, base_name)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    base_name = os.path.basename(INPUT_CSV).replace("ranked_", f"context_{MODE.lower()}_top{SAMPLE_SIZE}_").replace(".csv", "")
+    output_path = os.path.join(OUTPUT_FOLDER, f"{base_name}_{timestamp}.csv")
 
     df_results.to_csv(output_path, index=False)
     

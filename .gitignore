@@ -6,8 +6,17 @@ __pycache__/
 # Variáveis de Ambiente (Segredos)
 .env
 
-# Dados e Resultados (Opcional: se quiser subir apenas o código)
-output_rankings/
-output_detection/
-seart-data/*.json
-seart-data/*.gz
+# Dados e Resultados (gerados pelos scripts)
+data/**/*.json
+data/**/*.gz
+data/**/*.csv
+
+# Script referência
+
+scripts-referencia/*
+
+# Test
+
+test/**/*.csv
+test/**/*.json
+test/**/*.gz

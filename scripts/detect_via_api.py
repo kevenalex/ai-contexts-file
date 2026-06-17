@@ -17,13 +17,17 @@ def check_file_api(repo_name, file_path, token):
 def detect_context_api(
     input_csv,
     output_folder,
-    sample_size=1000,
+    sample_size=None,
     github_token="",
     context_files=None
 ):
     """Analisa repositórios via API do GitHub."""
     if context_files is None:
-        context_files = {"AGENTS.md": "AGENTS.md", "CLAUDE.md": "CLAUDE.md"}
+        print("Erro: context_files não fornecido.")
+        return
+    if sample_size is None:
+        print("Erro: sample_size não fornecido.")
+        return
 
     os.makedirs(output_folder, exist_ok=True)
     df = pd.read_csv(input_csv).head(sample_size)
@@ -40,7 +44,7 @@ def detect_context_api(
             found_data[label] = 1 if exists else 0
         
         results.append(found_data)
-        time.sleep(0.1 if github_token else 1.0)
+        # time.sleep(0.1 if github_token else 1.0)
         
         if (index + 1) % 10 == 0:
             print(f"Processados: {index + 1}/{len(df)}...")

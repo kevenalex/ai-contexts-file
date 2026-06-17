@@ -7,10 +7,10 @@ from ranking import rank_repositories
 # ===========================
 
 # Caminho dos dados (Pasta seart-data dentro do repositório)
-INPUT_FILE = "seart-data/24-08-2025.json"
+INPUT_FILE = "data/seart_data/24-08-2025.json"
 
 # Pasta de destino para os resultados
-OUTPUT_FOLDER = "output_rankings"
+OUTPUT_FOLDER = "data/output_rankings"
 
 # Parâmetros do Ranking
 WEIGHTS_POP = {"stargazers": 0.25, "contributors": 0.50, "watchers": 0.25}

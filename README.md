@@ -2,27 +2,49 @@
 
 Este projeto tem como objetivo analisar como repositórios populares de código aberto utilizam arquivos de configuração para agentes de IA, como AGENTS.md, CLAUDE.md, GEMINI.md, etc.
 
-## Estrutura de pastas
+## Estrutura do Repositório (Architecture/Structure)
+- `scripts/`: Contém a lógica central de processamento.
+    - `ranking.py`, `detect_via_api.py`, `detect_via_clone.py`: Motores de processamento (coleta e classificação).
+    - `run_ranking.py`, `run_detect_context.py`: Scripts de entrada para execução e configuração de variáveis.
+- `notebooks/`: Análise visual e estatística dos dados.
+- `data/`: Centraliza todos os arquivos de dados do projeto.
+    - `seart_data/`: Dados brutos de entrada (JSON do SEART).
+    - `output_rankings/`: Resultados da Etapa 1 (CSV ranqueado).
+    - `context_detection/`: Resultados da Etapa 2 (CSV com detecção binária de arquivos).
+    - `content_analysis/`: Resultados de extração de estrutura e classificação de cabeçalhos.
+    - `testing_analysis/`: Dados extraídos para validação de fidelidade de testes.
+- `.env`: Armazena o `GITHUB_TOKEN` (não comitar).
 
-- scripts/:
-  - Arquivos de lógica: (ranking.py, detect_via_api.py, detect_via_clone.py) são os motores do projeto - Execução de ranking, coleta e classificação dos dados.
-  - Arquivos de execução: (run_ranking.py, run_detect_context.py) arquivos para replicabilidade dos resultados e configurações de variáveis de execução.
-- notebooks/: Pasta contendo os arquivos Jupyter Notebook para análise visual e estatística dos dados coletados.
-- seart-data/: Pasta dedicada para alocar os dados advindos da busca do SEART.
-- output_rankings/: Pasta onde o sistema salvará as tabelas de repositórios já classificados.
-- output_detection/: Pasta onde o sistema salvará os resultados da busca por arquivos de contexto.
+## Stack Tecnológica (Tech Stack)
+- **Linguagem:** Python 3.x
+- **Bibliotecas Principais:** Pandas, NumPy, Requests, Python-dotenv.
+- **Visualização:** Matplotlib, Seaborn, Jupyter Notebook.
 
-## Preparação do ambiente
+## Configuração e Instalação (Setup)
+1. Criar ambiente virtual: `python -m venv .venv`
+2. Ativar ambiente: `source .venv/bin/activate`
+3. Instalar dependências: `pip install -r requirements.txt`
+4. Configurar `.env`: Adicionar `GITHUB_TOKEN=seu_token`. (Necessário para evitar bloqueios por excesso de acessos na API do GitHub).
 
-Para garantir que o código funcione corretamente, você deve criar um ambiente virtual e instalar as bibliotecas necessárias uma única vez:
+## Fluxo de Trabalho (Workflow)
+O processo deve seguir rigorosamente estas etapas:
 
-1. Crie o ambiente: python -m venv .venv
-2. Ative o ambiente: source .venv/bin/activate
-3. Instale as bibliotecas: pip install -r requirements.txt
+1. **Ranqueamento (Etapa 1):** 
+   - **Objetivo:** Lê os dados brutos e define os repositórios mais importantes (maduros e populares).
+   - **Arquivo:** `scripts/run_ranking.py`
+   - **Variáveis principais:** `INPUT_FILE` (em `data/seart_data/`), `OUTPUT_FOLDER` (`data/output_rankings/`).
+   - **Execução:** `python scripts/run_ranking.py`
 
-## Fluxo de execução
+2. **Detecção (Etapa 2):** 
+   - **Objetivo:** Verifica quais repositórios do ranking possuem arquivos para IA.
+   - **Arquivo:** `scripts/run_detect_context.py`
+   - **Variáveis principais:** `MODE` ("API" ou "CLONE"), `INPUT_CSV` (em `data/output_rankings/`), `OUTPUT_FOLDER` (`data/context_detection/`).
+   - **Execução:** `python scripts/run_detect_context.py`
 
-O processo de pesquisa é dividido em três etapas:
+3. **Análise de Conteúdo e Fidelidade (Etapa 3):**
+   - **Objetivo:** Extrair estrutura, classificar e validar o conteúdo dos arquivos detectados.
+   - **Scripts:** `extract_content_structure.py`, `classify_headings.py`, `extract_testing_details.py`.
+   - **Saídas:** Alocadas em `data/content_analysis/` e `data/testing_analysis/`.
 
 ### Etapa 1: Ranqueamento de Repositórios
 
