@@ -1,16 +1,16 @@
 import os
 import pandas as pd
-from ranking import rank_repositories
+from scripts.ranking.ranking import rank_repositories
 
 # ===========================
 # CONFIGURAÇÃO DA PESQUISA
 # ===========================
 
-# Caminho dos dados (Pasta seart-data dentro do repositório)
-INPUT_FILE = "data/seart_data/24-08-2025.json"
+# Caminho dos dados (Pasta input-data dentro do repositório)
+INPUT_FILE = "data/input_data/06-16-2026-seart_data_raw.json"
 
 # Pasta de destino para os resultados
-OUTPUT_FOLDER = "data/output_rankings"
+OUTPUT_FOLDER = "data/analysis_data"
 
 # Parâmetros do Ranking
 WEIGHTS_POP = {"stargazers": 0.25, "contributors": 0.50, "watchers": 0.25}

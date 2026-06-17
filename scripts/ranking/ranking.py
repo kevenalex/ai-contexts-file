@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime
 import json
 
+
 def rank_repositories(
     json_path,
     popularity_weights={"stargazers": 0.25, "contributors": 0.5, "watchers": 0.25},
@@ -167,7 +168,7 @@ def rank_repositories(
         df["maturity_score_pen"] = df["maturity_score"]
 
     # Calculate the final rank score (equal weight to popularity and maturity)
-    df["rank_score"] = (0.5 * df["popularity_score_pen"] + 0.5 * df["maturity_score_pen"]).round(2)
+    df["rank_score"] = 0.5 * df["popularity_score_pen"] + 0.5 * df["maturity_score_pen"]
 
     # Calculate the rank based on the score
     df["rank"] = df["rank_score"].rank(ascending=False)
@@ -242,6 +243,31 @@ def calculate_text_percentage(metrics_data, text_languages):
 
     # Calculate percentage
     return (text_lines / total_lines) * 100 if total_lines > 0 else 0
+
+
+# def apply_educational_repo_penalty(repo):
+#     """
+#     Apply a combined penalty specifically targeting educational repositories.
+
+#     This function uses multiple fork-related metrics that together provide a
+#     strong signal for identifying educational repositories like eugenp/tutorials.
+#     """
+#     # Calculate the combined metrics
+#     forks_to_stars = repo['forks'] / (repo['stargazers'] + 1)
+#     forks_to_contrib = repo['forks'] / (repo['contributors'] + 1)
+#     combined_metric = forks_to_stars * forks_to_contrib
+
+#     # Determine the penalty based on thresholds
+#     if forks_to_stars > 1.2 and forks_to_contrib > 150:
+#         return 0.1  # Very strong penalty (e.g. eugenp/tutorials)
+#     elif combined_metric > 200 or forks_to_stars > 3.0:
+#         return 0.2  # Strong penalty
+#     elif combined_metric > 100 or forks_to_stars > 1.0:
+#         return 0.5  # Moderate penalty
+#     elif combined_metric > 50:
+#         return 0.8  # Mild penalty
+#     else:
+#         return 1.0  # No penalty
 
 
 def apply_forks_stars_penalty(ratio):

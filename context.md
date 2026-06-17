@@ -11,8 +11,8 @@
 
 Checklist:
 
-[ ] - /data
-	[ ] - /data/input_data/
+[ X ] - /data
+	[ X ] - /data/input_data/
 	[ ] - /data/analysis_data/
 [ ] - /scripts
 [ ] - /results

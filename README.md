@@ -4,12 +4,13 @@ Este projeto tem como objetivo analisar como repositórios populares de código 
 
 ## Estrutura do Repositório (Architecture/Structure)
 - `scripts/`: Contém a lógica central de processamento.
-    - `ranking.py`, `detect_via_api.py`, `detect_via_clone.py`: Motores de processamento (coleta e classificação).
-    - `run_ranking.py`, `run_detect_context.py`: Scripts de entrada para execução e configuração de variáveis.
+    - `ranking/ranking.py`, `ranking/run_ranking.py`: Motor e script de entrada da Etapa 1 (módulo Python — ver instruções de execução abaixo).
+    - `detect_via_api.py`, `detect_via_clone.py`, `run_detect_context.py`: Motor e script de entrada da Etapa 2.
 - `notebooks/`: Análise visual e estatística dos dados.
 - `data/`: Centraliza todos os arquivos de dados do projeto.
-    - `seart_data/`: Dados brutos de entrada (JSON do SEART).
-    - `output_rankings/`: Resultados da Etapa 1 (CSV ranqueado).
+    - `input_data/`: Dados brutos de entrada, intocáveis (JSON do SEART).
+    - `analysis_data/`: Dados transformados pelos scripts (destino atual da Etapa 1; em migração — coletas antigas ainda estão em `output_rankings/`).
+  
     - `context_detection/`: Resultados da Etapa 2 (CSV com detecção binária de arquivos).
     - `content_analysis/`: Resultados de extração de estrutura e classificação de cabeçalhos.
     - `testing_analysis/`: Dados extraídos para validação de fidelidade de testes.
@@ -31,9 +32,9 @@ O processo deve seguir rigorosamente estas etapas:
 
 1. **Ranqueamento (Etapa 1):** 
    - **Objetivo:** Lê os dados brutos e define os repositórios mais importantes (maduros e populares).
-   - **Arquivo:** `scripts/run_ranking.py`
-   - **Variáveis principais:** `INPUT_FILE` (em `data/seart_data/`), `OUTPUT_FOLDER` (`data/output_rankings/`).
-   - **Execução:** `python scripts/run_ranking.py`
+   - **Arquivo:** `scripts/ranking/run_ranking.py`
+   - **Variáveis principais:** `INPUT_FILE` (em `data/input_data/`), `OUTPUT_FOLDER` (`data/analysis_data/`).
+   - **Execução:** `python -m scripts.ranking.run_ranking` (a partir da raiz do projeto — necessário rodar como módulo por causa do import `scripts.ranking.ranking`).
 
 2. **Detecção (Etapa 2):** 
    - **Objetivo:** Verifica quais repositórios do ranking possuem arquivos para IA.
@@ -51,13 +52,13 @@ O processo deve seguir rigorosamente estas etapas:
 Nesta etapa, o script lê os dados brutos e define quais são os repositórios mais importantes (maduros e populares).
 
 Como usar:
-1. Abra o arquivo scripts/run_ranking.py.
-2. Altere a variável INPUT_FILE para o caminho do seu arquivo JSON (ex: "seart-data/dados.json").
-3. Salve o arquivo e execute no terminal - a partir da root do projeto:
-  > python scripts/run_ranking.py
+1. Abra o arquivo scripts/ranking/run_ranking.py.
+2. Altere a variável INPUT_FILE para o caminho do seu arquivo JSON (ex: "data/input_data/dados.json").
+3. Salve o arquivo e execute no terminal - a partir da raiz do projeto:
+  > python -m scripts.ranking.run_ranking
 
 Exemplo de Entrada: Um arquivo JSON com milhares de repositórios do GitHub.
-Exemplo de Saída: Um arquivo CSV na pasta output_rankings/ contendo os repositórios ordenados por uma pontuação (rank_score).
+Exemplo de Saída: Um arquivo CSV na pasta analysis_data/ contendo os repositórios ordenados por uma pontuação (rank_score).
 
 ### Etapa 2: Detecção de Contexto de IA
 
